@@ -35,5 +35,21 @@ def main():
     print("\nDo all string addresses look like dictionaries?")
     print(string_addresses["address"].str.startswith("{").value_counts())
 
+    print("\nPrimary NAICS types:")
+    print(df['primary_naics'].apply(type).value_counts())
+
+    address_is_string = df["address"].apply(type) == str
+    naics_is_string = df["primary_naics"].apply(type) == str
+    print("\nSame profile with string address and primary_naics:")
+    print((address_is_string== naics_is_string).all())
+
+    string_naics = df [df["primary_naics"].apply(type) == str]
+    print("\nPrimary NAICS strings:")
+    print(string_naics["primary_naics"].head())
+    print("\nDo all string primary_naics look like dictionaries?")
+    print(string_naics["primary_naics"].str.startswith("{").value_counts())
+
+    
+
 if __name__ == "__main__":
     main()

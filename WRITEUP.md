@@ -25,14 +25,21 @@ Observations after the initial inspection that may influence how the data should
 - **Some fields contain null or absent values.**  
 The first Rompetrol profile has `employee_count = nan` and `secondary_naics = None`. At this stage, I don't assume that these two have the same meaning.   
 `secondary_naics = None` means the information is missing from this profile or the company really doesn't have a secondary NAICS classification?
+
 - **Some values that would normally be expected to be int are represented as decimal numbers**  
 Rompetrol's `year_founded` is 1979.0 instead of 1979. Why this happens needs to be investigated.
+
 - **Some fields that contains structured information are stored as string**  
 In the first inspected Rompetrol profile, the `address` and `primary_naics` look like structured objects, but their actual Python type is `str`.   
-**After further analysis** I checked the Python type of every value in the `adress` column. 413/477 profiles are stored as *dictionaries* and 64/477 profiles are stored as *string*. The first inspected string values also looked like dictionaries serialized as text, so I checked whether this pattern is consistent across all 64 string values. I found out that all 64 start with `{`
-  **Conclusion:** The `address` field has an inconsistent representation across the dataset and will need normalizarion if it is used by the qualification system.
+**After further analysis** I checked the Python type of every value in the `address` column. 413/477 values are stored as *dictionaries* and 64/477 values are stored as *string*. The first inspected string values also looked like dictionaries serialized as text, so I checked whether this pattern is consistent across all 64 string values. I found out that all 64 start with `{`.    
+  **After further analysis of `primary_naics`** I found out that `primary_naics` has the same type distribution as `address`: 413/477 values are stored as *dictionaries* and 64/477 values are stored as *string*. Since the counts are identical, I must check if the same profiles are affected. The analysis confirmed that the exact same 64 profiles have both fields stored as strings. All 64 string `primary_naics` also start with `{`, which suggests they are dictionaries serialized as text.  
+    **Conclusion:** `address` and `primary_naics` have inconsistent representations across the dataset and will need normalization before they can be processed.
 
-.
+ 
+
+
+
+
 
 
 
