@@ -31,6 +31,8 @@ The first Rompetrol profile has `employee_count = nan` and `secondary_naics = No
 
   **Conclusion:** `secondary_naics` is mostly absent in most profiles and the meaning of `None` remains ambiguous.
 
+  **Current assumption:** Until further evidence is available, I will treat `None` as unavailable information rather than proof that the company does not have a secondary NAICS classification.
+
 - **Some values that would normally be expected to be int are represented as decimal numbers**  
 Rompetrol's `year_founded` is 1979.0 instead of 1979. Why this happens needs to be investigated.
 
