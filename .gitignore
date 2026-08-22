@@ -218,4 +218,4 @@ __marimo__/
 .streamlit/secrets.toml
 
 #Veridion dataset
-data/companies.json
+data/companies.jsonl
