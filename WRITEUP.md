@@ -17,6 +17,28 @@ The system must balance accuracy, speed, cost and scalability.
 ## 2. Approach
 
 ### 2.1 Dataset 
+
+The dataset contains **477 company profiles and 13 fields.**
+
+Observations after the initial inspection that may influence how the data should be processed:
+
+- **Some fields contain null or absent values.**  
+The first Rompetrol profile has `employee_count = nan` and `secondary_naics = None`. At this stage, I don't assume that these two have the same meaning.   
+`secondary_naics = None` means the information is missing from this profile or the company really doesn't have a secondary NAICS classification?
+- **Some values that would normally be expected to be int are represented as decimal numbers**  
+Rompetrol's `year_founded` is 1979.0 instead of 1979. Why this happens needs to be investigated.
+- **Some fields that contains structured information are stored as string**  
+In the first inspected Rompetrol profile, the `address` and `primary_naics` look like structured objects, but their actual Python type is `str`.   
+**After further analysis** I checked the Python type of every value in the `adress` column.  
+  **Conclusion:** 413/477 profiles are stored as *dictionaries* and 64/477 profiles are stored as string. This means the field cannot be processed uniformly without some form of preprocessing or normalization.
+
+- **Other fields with multiple values are stored as lists.**  
+`business_model` contains values like Wholesale, Manufacturing and Business-to-Business. `target_markets` and `core_offerings` are also lists.
+- **First five rows suggest that repeated company names may exist in the dataset**  
+Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's not clear if these are duplicates, different company profiles or related entities, so this must be investigated.
+  
+
+
 ### 2.2 Query Analysis
 ### 2.3 System Architecture
 ### 2.4 Qualification and Ranking Strategy
