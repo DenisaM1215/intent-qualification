@@ -28,5 +28,12 @@ def main():
     print("\nAddress types:")
     print(df['address'].apply(type).value_counts())
 
+    string_addresses = df [df["address"].apply(type) == str]
+    print("\nAddress strings:")
+    print(string_addresses["address"].head())
+
+    print("\nDo all string addresses look like dictionaries?")
+    print(string_addresses["address"].str.startswith("{").value_counts())
+
 if __name__ == "__main__":
     main()

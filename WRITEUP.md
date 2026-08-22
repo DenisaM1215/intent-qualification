@@ -29,8 +29,12 @@ The first Rompetrol profile has `employee_count = nan` and `secondary_naics = No
 Rompetrol's `year_founded` is 1979.0 instead of 1979. Why this happens needs to be investigated.
 - **Some fields that contains structured information are stored as string**  
 In the first inspected Rompetrol profile, the `address` and `primary_naics` look like structured objects, but their actual Python type is `str`.   
-**After further analysis** I checked the Python type of every value in the `adress` column.  
-  **Conclusion:** 413/477 profiles are stored as *dictionaries* and 64/477 profiles are stored as string. This means the field cannot be processed uniformly without some form of preprocessing or normalization.
+**After further analysis** I checked the Python type of every value in the `adress` column. 413/477 profiles are stored as *dictionaries* and 64/477 profiles are stored as *string*. The first inspected string values also looked like dictionaries serialized as text, so I checked whether this pattern is consistent across all 64 string values. I found out that all 64 start with `{`
+  **Conclusion:** The `address` field has an inconsistent representation across the dataset and will need normalizarion if it is used by the qualification system.
+
+.
+
+
 
 - **Other fields with multiple values are stored as lists.**  
 `business_model` contains values like Wholesale, Manufacturing and Business-to-Business. `target_markets` and `core_offerings` are also lists.
