@@ -49,7 +49,25 @@ def main():
     print("\nDo all string primary_naics look like dictionaries?")
     print(string_naics["primary_naics"].str.startswith("{").value_counts())
 
-    
+    print("\nBusiness model types:")
+    print(df['business_model'].apply(type).value_counts())
+
+    print("\nTarget markets types:")
+    print(df['target_markets'].apply(type).value_counts())
+
+    print("\nCore offerings types:")
+    print(df['core_offerings'].apply(type).value_counts())
+
+    print("\nSecondary NAICS types:")
+    print(df['secondary_naics'].apply(type).value_counts())
+
+    secondary_naics_values = df["secondary_naics"].dropna()
+    print("\nSecondary NAICS values:")
+    print(secondary_naics_values.head())
+
+    print("\nSecondary NAICS keys:")
+    for value in secondary_naics_values:
+        print(value.keys())
 
 if __name__ == "__main__":
     main()
