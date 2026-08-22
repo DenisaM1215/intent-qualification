@@ -69,5 +69,30 @@ def main():
     for value in secondary_naics_values:
         print(value.keys())
 
+    print ("\nYear founded missing values:")
+    print(df['year_founded'].isna().sum())
+
+    years = df['year_founded'].dropna()
+
+    print("\nAre all existing years whole numbers?")
+    print((years % 1 == 0).all())
+
+    print("\nEmployee count missing values:")
+    print(df['employee_count'].isna().sum())
+
+    employees = df['employee_count'].dropna()
+
+    print("\nAre all existing employee counts whole numbers?")
+    print((employees % 1 == 0).all())
+
+    print("\nRevenue missing values:")
+    print(df['revenue'].isna().sum())
+
+    revenue = df['revenue'].dropna()
+
+    print("\nAre all existing revenue values whole numbers?")
+    print((revenue % 1 == 0).all())
+          
+
 if __name__ == "__main__":
     main()

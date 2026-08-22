@@ -29,16 +29,20 @@ The first Rompetrol profile has `employee_count = nan` and `secondary_naics = No
 
   After checking the entire `secondary_naics` column, I found that 466/477 profiles contain `None`, while only 11 contain a dictionary. The existing 11 values all contain the same two keys:  *code* and *label*. Since the task description also mentions missing company data, I still cannot assume that `None` necessarily means that a company has no secondary NAICS classification. It may also mean that this information is unavailable.
 
-  **Conclusion:** `secondary_naics` is mostly absent in most profiles and the meaning of `None` remains ambiguous.
+  **Conclusion:** `secondary_naics` is absent in most profiles and the meaning of `None` remains ambiguous.
 
   **Current assumption:** Until further evidence is available, I will treat `None` as unavailable information rather than proof that the company does not have a secondary NAICS classification.
 
 - **Some values that would normally be expected to be int are represented as decimal numbers**  
-Rompetrol's `year_founded` is 1979.0 instead of 1979. Why this happens needs to be investigated.
+Rompetrol's `year_founded` is 1979.0 instead of 1979, which made me investigate the numeric columns further.
 
-- **Some fields that contains structured information are stored as string**  
+  **After further analysis** I found 131 missing values in the `year_founded` column, 188 in `employee_count` and 93 in 'revenue'. I also checked the remaining values after removing the missing values and confirmed that they are whole numbers in all three columns.
+
+  **Conclusion:** The decimal representation doesn't come from actual fractional values. The columns are stored as `float64` because they also contain missing values.
+
+- **Some fields that contains structured information are stored as strings**  
 In the first inspected Rompetrol profile, the `address` and `primary_naics` look like structured objects, but their actual Python type is `str`.   
-**After further analysis** I checked the Python type of every value in the `address` column. 413/477 values are stored as *dictionaries* and 64/477 values are stored as *string*. The first inspected string values also looked like dictionaries serialized as text, so I checked whether this pattern is consistent across all 64 string values. I found out that all 64 start with `{`.    
+**After further analysis** I checked the Python type of every value in the `address` column. 413/477 values are stored as *dictionaries* and 64/477 values are stored as *strings*. The first inspected string values also looked like dictionaries serialized as text, so I checked whether this pattern is consistent across all 64 string values. I found out that all 64 start with `{`.    
   **After further analysis of `primary_naics`** I found out that `primary_naics` has the same type distribution as `address`: 413/477 values are stored as *dictionaries* and 64/477 values are stored as *string*. Since the counts are identical, I checked if the same profiles are affected. The analysis confirmed that the exact same 64 profiles have both fields stored as strings. All 64 string `primary_naics` also start with `{`, which suggests they are dictionaries serialized as text.  
     **Conclusion:** `address` and `primary_naics` have inconsistent representations across the dataset and will need normalization before they can be processed.
 
