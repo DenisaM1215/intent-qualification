@@ -92,7 +92,49 @@ def main():
 
     print("\nAre all existing revenue values whole numbers?")
     print((revenue % 1 == 0).all())
-          
+
+    print("\nRepeated company names:")
+    name_counts = df['operational_name'].value_counts()
+    print(name_counts[name_counts > 1])
+
+    print ("\nSesame HR profiles:")
+    sesame = df[df['operational_name'] == "Sesame HR"]
+    print(sesame[["website", "operational_name", "year_founded", "employee_count","revenue"]])
+
+    print("\nSesame HR location and NAICS:")
+    print(sesame[["website","address", "primary_naics"]].to_string(index=False))
+
+    print ("\nRompetrol profiles:")
+    rompetrol = df[df['operational_name'] == "Rompetrol"]
+    print(rompetrol[["website", "operational_name", "year_founded", "employee_count","revenue"]])
+
+    print("\nRompetrol location and NAICS:")
+    print(rompetrol[["website","address", "primary_naics"]].to_string(index=False))
+
+    print("\n\n\n")
+    repeated_names = name_counts[name_counts > 1].index
+    for name in repeated_names:
+        print("\n", name)
+        print(df[df['operational_name'] == name][["website", "address", "primary_naics"]].to_string(index=False))
+
+    print("\n\n\n")
+    print("\nDifferent fields for the repeated names:")
+    for name in repeated_names:
+        profiles = df[df['operational_name'] == name]
+        print("\n", name)
+        for col in df.columns:
+            if profiles[col].astype(str).nunique() > 1:
+                print(col)
+
+    print("\nExact duplicate rows:")
+    print(df.astype(str).duplicated().sum())
+
+    secondary_names = df[df["secondary_naics"].notna()]["operational_name"]
+    print("\nNames with secondary NAICS:")
+    print(secondary_names.to_string(index=False))
+
+    print("\nRepeated names with secondary NAICS:")
+    print(secondary_names[secondary_names.isin(repeated_names)].to_string(index=False)) 
 
 if __name__ == "__main__":
     main()

@@ -50,7 +50,20 @@ In the first inspected Rompetrol profile, the `address` and `primary_naics` look
 `business_model` contains values like Wholesale, Manufacturing and Business-to-Business. `target_markets` and `core_offerings` are also lists across all 477 profiles.
 - **First five rows suggest that repeated company names may exist in the dataset**  
 Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's not clear if these are duplicates, different company profiles or related entities, so this must be investigated.
-  
+
+  After investigating the entire `operational_name` column, I found 25 repeated company names. `Sesame HR` appears 4 times, while 24 other names appear twice. A repeated name does not mean that the profiles are duplicates, so the affected profiles need to be compared before deciding how to handle them.
+
+  I inspected the four `Sesame HR` profiles. They use different websites, but all of them are located in Spain and have the same primary NAICS classification (`513210 - Software Publishers`). Three profiles also appear to share the same address. However, some numerical attributes such as revenue, employee count and year founded differ or are missing.
+
+  I also inspected the two `Rompetrol`profiles. They have different websites but share the same primary NAICS classification and the same city and country. Their coordinates are very close, while some numerical attributes like `year_founded`, `employee_count` and `revenue` differ.
+
+  **Current hypothesis:** These might be multiple profiles of the same company associated with different domains rather than four independent companies. I need to inspect more repeated names before deciding if deduplication is necessary.
+
+  **After inspecting the repeated names:** The profiles do not follow a single pattern. For 20/25 repeated names, I didn't find any differences between profiles, which suggests the existence of exact duplicate rows. The remaining five names (`Sesame HR`, `Rompetrol`, `Versar`, `Decathlon` and `RJETech`) have differences in one or more fields.  `Decathlon` is a clear example why `operational_name` can't be used alone for deduplication, since the two profiles are associated with different websites and countries.
+
+  None of the 11 profiles with an available `secondary_naics` value overlap with the repeated company names, so this field doesn't affect the duplicate analysis.
+
+  **Conclusion:** Some repeated names appear to be exact duplicate profiles, while others represent distinct or partially different profiles. Deduplication should be based on the complete profile rather than on `operational_name` alone.
 
 
 ### 2.2 Query Analysis
