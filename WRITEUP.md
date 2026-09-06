@@ -65,6 +65,24 @@ Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's
 
   **Conclusion:** Deduplication should be based on the complete profile rather than on `operational_name` alone.
 
+  **For further analysis** the 20 exact duplicate rows will be excluded from the descriptive statistics and distribution analysis, so they don't artificially influence the results. Profiles that only share the same `operational_name` but differ in other fields will be kept, since the previous analysis showed that they may represent distinct or partially different company profiles.
+
+  ### Numerical distributions
+  To better understand the numerical fields that can be used for explicit query constraints, I analyzed their descriptive statistics after excluding the 20 exact duplicate rows.
+
+    | Field | Available values | Mean | Median | Min | 25% | 75% | Max |
+    |---|---:|---:|---:|---:|---:|---:|---:|
+    | `year_founded` | 334 | 1998.02 | 2011 | 1856 | 1988.25 | 2021 | 2025 |
+    
+
+  
+
+![Distribution of Year Founded](analysis/figures/year_founded_distribution.png)
+
+**Interpretation:** The distribution is strongly concentrated towards more recently founded companies, especially after 2000. The mean founding year (1998) is lower than the median (2011), which suggests that older companies form a long tail towards the earlier years. Half of the available values fall approximately between 1988 and 2021.
+
+**Conclusion:** `year_founded` can be directly used fot explicit constraints. However, the field is not available for every company, so a missing value should not automatically be interpreted as failing the constraint.
+
 
 ### 2.2 Query Analysis
 ### 2.3 System Architecture
