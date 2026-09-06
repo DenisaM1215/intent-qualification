@@ -73,6 +73,7 @@ Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's
     | Field | Available values | Mean | Median | Min | 25% | 75% | Max |
     |---|---:|---:|---:|---:|---:|---:|---:|
     | `year_founded` | 334 | 1998.02 | 2011 | 1856 | 1988.25 | 2021 | 2025 |
+    | `employee_count` | 282 | 25,713.29 | 39.5 | 1 | 5 | 3,575 | 2,100,000 |
     
 
   
@@ -82,6 +83,14 @@ Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's
 **Interpretation:** The distribution is strongly concentrated towards more recently founded companies, especially after 2000. The mean founding year (1998) is lower than the median (2011), which suggests that older companies form a long tail towards the earlier years. Half of the available values fall approximately between 1988 and 2021.
 
 **Conclusion:** `year_founded` can be directly used for explicit constraints. However, the field is not available for every company, so a missing value should not automatically be interpreted as failing the constraint.
+
+![Distribution of Employee Count - Log Scale](analysis/figures/employee_count_distribution_log_scale.png)
+
+**Interpretation:** The distribution is highly right-skewed. The mean (25,713.29) is much larger than the median (39.5), while the maximum reaches 2.1 million employees. The skewness value of 12.30 and the upper percentiles confirm a long right tail.  
+
+A linear-scale histogram was initially inspected, but the very large values compressed most observations close to zero and made the distribution difficult to interpret. For this reason, I used logarithmic bins and a logarithmic x-axis in the final visualization.
+
+**Conclusion:** `employee_count` can be used directly for explicit constraints. However, missing values should be treated as unknown rather than automatic failures.
 
 
 ### 2.2 Query Analysis
