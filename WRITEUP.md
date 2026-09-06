@@ -74,6 +74,7 @@ Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's
     |---|---:|---:|---:|---:|---:|---:|---:|
     | `year_founded` | 334 | 1998.02 | 2011 | 1856 | 1988.25 | 2021 | 2025 |
     | `employee_count` | 282 | 25,713.29 | 39.5 | 1 | 5 | 3,575 | 2,100,000 |
+    | `revenue` | 375 | 11,739,971,055.56 | 19,506,407 | 7,524 | 2,343,482.5 | 1,781,447,870 | 2,500,388,591,944 |
     
 
   
@@ -91,6 +92,14 @@ Rompetrol appears with both `rompetrol.ro` and `rompetrol.com` as websites. It's
 A linear-scale histogram was initially inspected, but the very large values compressed most observations close to zero and made the distribution difficult to interpret. For this reason, I used logarithmic bins and a logarithmic x-axis in the final visualization.
 
 **Conclusion:** `employee_count` can be used directly for explicit constraints. However, missing values should be treated as unknown rather than automatic failures.
+
+![Distribution of Estimated Annual Revenue](analysis/figures/revenue_distribution_log_scale.png)
+
+**Interpretation:** The `revenue` field is highly right-skewed. The mean revenue (11.74 billion USD) is much larger than the median (19.51 million USD), while the maximum reaches 2.5 trillion USD. The skewness value of 18.95 and the upper precentiles confirm a long right tail.  
+
+Because the values span multiple orders of magnitude, a logarithmic x-axis was used in the final visualization to make the distribution easier to interpret.
+
+**Conclusion:** `revenue` can be used directly for explicit constraints. However, because the field is missing for some profiles, missing values should be treated as unknown, rather than automatic failures.
 
 
 ### 2.2 Query Analysis

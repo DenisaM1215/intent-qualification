@@ -58,7 +58,7 @@ def main():
     employee_bins = np.logspace(
         np.log10(employees.min()),
         np.log10(employees.max()),
-        20
+        21
     )
 
     plt.figure(figsize=(10, 5))
@@ -72,7 +72,37 @@ def main():
     print("Histogram saved!")
     plt.close()
 
+    revenue = df_unique['revenue'].dropna()
+    print("\nRevenue statistics:")
+    print(revenue.describe())
+    print("\nMedian:")
+    print(revenue.median())
 
+    print ("\nRevenue skewness:")
+    print(revenue.skew())
+    print("\nRevenue percentiles:")
+    print(revenue.quantile([0.25, 0.5, 0.75, 0.9, 0.95, 0.99]))
+
+    print("\nCompanies with highest revenue:")
+    highest_revenue = df_unique[["operational_name", "website", "revenue"]].sort_values(by="revenue", ascending=False)
+    print(highest_revenue.head(10).to_string(index=False))
+
+    revenue_bins = np.logspace(
+        np.log10(revenue.min()),
+        np.log10(revenue.max()),
+        21
+    )
+    plt.figure(figsize=(10, 5))
+    plt.hist(revenue, bins=revenue_bins, rwidth=0.9, color="#f388e7e1", edgecolor='black')
+    plt.xscale('log')
+    plt.title("Distribution of Estimated Annual Revenue (Log Scale)")
+    plt.xlabel("Annual Revenue in USD(Log Scale)")
+    plt.ylabel("Number of companies")
+    plt.tight_layout()
+    plt.savefig("analysis/figures/revenue_distribution_log_scale.png")
+    print("Histogram saved!")
+    plt.close()
+    
 
 if __name__ == "__main__":
     main()
